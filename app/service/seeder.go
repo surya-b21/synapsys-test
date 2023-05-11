@@ -26,12 +26,16 @@ func SeedAll(db *gorm.DB) error {
 }
 
 var (
-	costumer model.Costumer
+	costumer        model.Costumer
+	productCategory model.ProductCategory
+	product         model.Product
 )
 
 // DataSeeds data to seed
 func DataSeeds() []interface{} {
 	return []interface{}{
 		costumer.Seed(),
+		productCategory.Seed(),
+		product.Seed(),
 	}
 }

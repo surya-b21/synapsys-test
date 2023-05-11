@@ -39,7 +39,9 @@ func InitDB() {
 
 		if db, err := gorm.Open(conn, config); err == nil {
 			if viper.GetBool("ENABLE_MIGRATION") {
+				AutoMigrate(db)
 
+				SeedAll(db)
 			}
 
 			DB = db.Debug()
