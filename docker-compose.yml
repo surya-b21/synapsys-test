@@ -1,0 +1,46 @@
+version: '3.8'
+
+networks:
+  net:
+    driver: bridge
+
+volumes:
+  goroot: {}
+  gocache: {}
+  mysqldata: {}
+
+services:
+  app:
+    image: golang:1.20.4-alpine
+    volumes:
+      - goroot:/go
+      - gocache:/.cache/go-build
+      - .:/app
+    ports:
+      - 8000:8000
+    working_dir: /app
+    environment:
+      - TZ=Asia/Jakarta
+      - PORT=8000
+    command:
+      - tail
+      - -f
+      - /etc/hosts
+    networks:
+      - net
+  
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - mysqldata:/var/lib/mysqldata/data
+    environment:
+      - MYSQL_DATABASE=synapsys
+      - MYSQL_USER=synapsys
+      - MYSQL_PASSWORD=s1yn4ps!5
+      - MYSQL_ROOT_PASSWORD=th1s!sr0ot
+    ports:
+      - 3306:3306
+    networks:
+      net:
+        aliases:
+          - mysql
