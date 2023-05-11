@@ -7,7 +7,7 @@ networks:
 volumes:
   goroot: {}
   gocache: {}
-  mysqldata: {}
+  dbdata: {}
 
 services:
   app:
@@ -29,18 +29,16 @@ services:
     networks:
       - net
   
-  mysql:
-    image: mysql:8.0
+  db:
+    image: mariadb:11.0-rc
     volumes:
-      - mysqldata:/var/lib/mysqldata/data
+      - dbdata:/var/lib/dbdata/data
     environment:
-      - MYSQL_DATABASE=synapsys
-      - MYSQL_USER=synapsys
-      - MYSQL_PASSWORD=s1yn4ps!5
-      - MYSQL_ROOT_PASSWORD=th1s!sr0ot
+      - MARIADB_DATABASE=synapsis
+      - MARIADB_ROOT_PASSWORD=th1s!sr0ot
     ports:
       - 3306:3306
     networks:
       net:
         aliases:
-          - mysql
+          - mariadb

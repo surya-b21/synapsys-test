@@ -12,7 +12,7 @@ type Product struct {
 // ProductAPI detail
 type ProductAPI struct {
 	Name                *string `json:"name,omitempty" gorm:"type:varchar(100)"`
-	ProductCategoryCode *string `json:"product_category_code,omitempty" gorm:"type:varchar(36)"`
+	ProductCategoryCode *string `json:"product_category_code,omitempty" gorm:"type:varchar(3)"`
 }
 
 // Seed data

@@ -10,7 +10,7 @@ type ProductCategory struct {
 
 // ProductCategoryAPI detail
 type ProductCategoryAPI struct {
-	Code     *string `json:"code,omitempty" gorm:"type:varchar(3);not null"`
+	Code     *string `json:"code,omitempty" gorm:"type:varchar(3);not null;uniqueIndex"`
 	Category *string `json:"category,omitempty" gorm:"type:varchar(36);not null"`
 }
 
