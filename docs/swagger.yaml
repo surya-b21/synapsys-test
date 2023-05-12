@@ -1,0 +1,90 @@
+basePath: /api
+definitions:
+  model.Product:
+    properties:
+      created_at:
+        format: date-time
+        type: string
+      id:
+        format: uuid
+        type: string
+      name:
+        type: string
+      product_category:
+        $ref: '#/definitions/model.ProductCategory'
+      product_category_code:
+        type: string
+      updated_at:
+        format: date-time
+        type: string
+    type: object
+  model.ProductCategory:
+    properties:
+      category:
+        type: string
+      code:
+        type: string
+      created_at:
+        format: date-time
+        type: string
+      id:
+        format: uuid
+        type: string
+      updated_at:
+        format: date-time
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: Documentation for synapsys test
+  title: Synapsis Test
+  version: "1.0"
+paths:
+  /product:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan semua list produk
+      parameters:
+      - description: Page number start from zero
+        in: query
+        name: page
+        type: integer
+      - description: Size per page, default `0`
+        in: query
+        name: size
+        type: integer
+      - description: Sort by field, adding dash (`-`) at the beginning means descending
+          and vice versa
+        in: query
+        name: sort
+        type: string
+      - description: Select specific fields with comma separated
+        in: query
+        name: fields
+        type: string
+      - description: custom filters, see [more details](https://github.com/morkid/paginate#filter-format)
+        in: query
+        name: filters
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Product'
+            type: array
+      security:
+      - JWT: []
+      summary: Get All product
+      tags:
+      - Product
+securityDefinitions:
+  JWT:  
+    type: apiKey  
+    in: header  
+    name: authorization  
+swagger: "2.0"

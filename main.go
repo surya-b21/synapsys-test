@@ -13,6 +13,7 @@ import (
 // @version 1.0
 // @description Documentation for synapsys test
 // @host localhost:8000
+// @securityDefinitions.basic BasicAuth
 // @BasePath /api
 func main() {
 	service.InitDB()

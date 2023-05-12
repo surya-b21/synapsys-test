@@ -117,6 +117,8 @@ func New(config Config) fiber.Handler {
 func Encode(claims *jwt.MapClaims, expiryAfter int64) (string, error) {
 	if expiryAfter == 0 {
 		expiryAfter = DefaultConfig.Expiry
+	} else {
+		DefaultConfig.Expiry = expiryAfter
 	}
 
 	(*claims)["exp"] = time.Now().UTC().Unix() + expiryAfter
