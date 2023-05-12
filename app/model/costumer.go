@@ -31,7 +31,7 @@ func (s *Costumer) Seed() *[]Costumer {
 
 		name := c[0]
 		email := c[1]
-		genpassword, _ := bcrypt.GenerateFromPassword([]byte(c[2]), 14)
+		genpassword, _ := bcrypt.GenerateFromPassword([]byte(c[2]), bcrypt.DefaultCost)
 		password := string(genpassword)
 
 		data = append(data, Costumer{

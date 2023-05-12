@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"synapsis-test/app/router"
 	"synapsis-test/app/service"
 
 	"github.com/gofiber/fiber/v2"
@@ -15,8 +16,10 @@ import (
 // @BasePath /api
 func main() {
 	service.InitDB()
+	service.InitPG()
 
 	app := fiber.New()
+	router.Handle(app)
 
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
 }
