@@ -28,5 +28,6 @@ func Handle(app *fiber.App) {
 
 	api.Get("/cart", cart.GetCart)
 	api.Post("/cart", cart.PostCart)
+	api.Post("/cart/check-out", cart.PostCartCheckOut)
 	api.Delete("/cart/:id", cart.DeleteCart)
 }

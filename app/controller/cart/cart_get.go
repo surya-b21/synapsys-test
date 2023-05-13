@@ -30,7 +30,7 @@ func GetCart(c *fiber.Ctx) error {
 	claimData := c.Locals("jwtClaims")
 	user := claimData.(jwt.MapClaims)
 
-	mod := db.Model(&model.Cart{}).Joins("Product").Joins("Costumer").Where("is_checkout = 0 AND costumer_id = ?", user["id"])
+	mod := db.Model(&model.Cart{}).Joins("Product").Joins("Costumer").Where("costumer_id = ?", user["id"])
 
 	response := pg.With(mod).Request(c.Request()).Response(&[]model.Cart{})
 
