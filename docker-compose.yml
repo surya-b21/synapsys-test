@@ -1,0 +1,53 @@
+version: '3.8'
+
+networks:
+  net:
+    driver: bridge
+
+volumes:
+  goroot: {}
+  gocache: {}
+  dbdata: {}
+
+services:
+  app:
+    image: golang:1.20.4-alpine
+    volumes:
+      - goroot:/go
+      - gocache:/.cache/go-build
+      - .:/app
+    ports:
+      - 8000:8000
+    working_dir: /app
+    environment:
+      - TZ=Asia/Jakarta
+      - PORT=8000
+    command:
+      - tail
+      - -f
+      - /etc/hosts
+    networks:
+      - net
+  
+  db:
+    image: mariadb:11.0-rc
+    volumes:
+      - dbdata:/var/lib/dbdata/data
+    environment:
+      - MARIADB_DATABASE=synapsis
+      - MARIADB_ROOT_PASSWORD=th1s!sr0ot
+    ports:
+      - 3306:3306
+    networks:
+      net:
+        aliases:
+          - mariadb
+
+  swagger:
+    image: swaggerapi/swagger-ui:latest
+    environment:
+      - URL=/docs/swagger.yaml
+    volumes:
+      - ./docs:/usr/share/nginx/html/docs
+    ports:
+      - 8080:8080

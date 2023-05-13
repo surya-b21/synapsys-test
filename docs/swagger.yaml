@@ -1,0 +1,298 @@
+basePath: /api
+definitions:
+  auth.Payload:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  model.Cart:
+    properties:
+      costumer:
+        $ref: '#/definitions/model.Costumer'
+      costumer_id:
+        type: string
+      created_at:
+        format: date-time
+        type: string
+      id:
+        format: uuid
+        type: string
+      is_checkout:
+        type: boolean
+      product:
+        $ref: '#/definitions/model.Product'
+      product_id:
+        type: string
+      updated_at:
+        format: date-time
+        type: string
+    type: object
+  model.CartAPI:
+    properties:
+      costumer_id:
+        type: string
+      is_checkout:
+        type: boolean
+      product_id:
+        type: string
+    type: object
+  model.Costumer:
+    properties:
+      created_at:
+        format: date-time
+        type: string
+      email:
+        type: string
+      id:
+        format: uuid
+        type: string
+      name:
+        type: string
+      updated_at:
+        format: date-time
+        type: string
+    type: object
+  model.Product:
+    properties:
+      created_at:
+        format: date-time
+        type: string
+      id:
+        format: uuid
+        type: string
+      name:
+        type: string
+      product_category:
+        $ref: '#/definitions/model.ProductCategory'
+      product_category_code:
+        type: string
+      updated_at:
+        format: date-time
+        type: string
+    type: object
+  model.ProductCategory:
+    properties:
+      category:
+        type: string
+      code:
+        type: string
+      created_at:
+        format: date-time
+        type: string
+      id:
+        format: uuid
+        type: string
+      updated_at:
+        format: date-time
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: Documentation for synapsys test
+  title: Synapsis Test
+  version: "1.0"
+paths:
+  /cart:
+    get:
+      consumes:
+      - application/json
+      description: Get all product in cart
+      parameters:
+      - description: Page number start from zero
+        in: query
+        name: page
+        type: integer
+      - description: Size per page, default `0`
+        in: query
+        name: size
+        type: integer
+      - description: Sort by field, adding dash (`-`) at the beginning means descending
+          and vice versa
+        in: query
+        name: sort
+        type: string
+      - description: Select specific fields with comma separated
+        in: query
+        name: fields
+        type: string
+      - description: custom filters, see [more details](https://github.com/morkid/paginate#filter-format)
+        in: query
+        name: filters
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Cart'
+            type: array
+      security:
+      - JWT: []
+      summary: Get all cart
+      tags:
+      - Cart
+    post:
+      consumes:
+      - application/json
+      description: Add product to cart
+      parameters:
+      - description: Payload Cart
+        in: body
+        name: data
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.CartAPI'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.CartAPI'
+            type: array
+      security:
+      - JWT: []
+      summary: Post cart
+      tags:
+      - Cart
+  /cart/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete product to cart
+      parameters:
+      - description: Cart ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.CartAPI'
+            type: array
+      security:
+      - JWT: []
+      summary: Delete cart
+      tags:
+      - Cart
+  /cart/check-out:
+    post:
+      consumes:
+      - application/json
+      description: Checkout product in cart
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Cart'
+            type: array
+      security:
+      - JWT: []
+      summary: Post checkout cart
+      tags:
+      - Cart
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login new costumer
+      parameters:
+      - description: Payload Login
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/auth.Payload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Costumer'
+      summary: Login new costumer
+      tags:
+      - Auth
+  /product:
+    get:
+      consumes:
+      - application/json
+      description: Get all list produk
+      parameters:
+      - description: Page number start from zero
+        in: query
+        name: page
+        type: integer
+      - description: Size per page, default `0`
+        in: query
+        name: size
+        type: integer
+      - description: Sort by field, adding dash (`-`) at the beginning means descending
+          and vice versa
+        in: query
+        name: sort
+        type: string
+      - description: Select specific fields with comma separated
+        in: query
+        name: fields
+        type: string
+      - description: custom filters, see [more details](https://github.com/morkid/paginate#filter-format)
+        in: query
+        name: filters
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Product'
+            type: array
+      security:
+      - JWT: []
+      summary: Get all product
+      tags:
+      - Product
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register new costumer
+      parameters:
+      - description: Payload Register
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/auth.Payload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Costumer'
+      summary: Register new costumer
+      tags:
+      - Auth
+securityDefinitions:
+  JWT:  
+    type: apiKey  
+    in: header  
+    name: authorization 
+swagger: "2.0"
