@@ -9,6 +9,13 @@ import (
 )
 
 // PostCartCheckOut godoc
+// @Summary      Post checkout cart
+// @Description  Checkout product in cart
+// @Tags         Cart
+// @Accept       application/json
+// @Security 	ApiKeyAuth
+// @Success      200  {object}  []model.Cart
+// @Router       /cart/check-out [post]
 func PostCartCheckOut(c *fiber.Ctx) error {
 	db := service.DB
 

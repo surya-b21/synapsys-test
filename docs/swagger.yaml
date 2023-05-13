@@ -134,7 +134,7 @@ paths:
               $ref: '#/definitions/model.Cart'
             type: array
       security:
-      - ApiKeyAuth: []
+      - JWT: []
       summary: Get all cart
       tags:
       - Cart
@@ -161,7 +161,7 @@ paths:
               $ref: '#/definitions/model.CartAPI'
             type: array
       security:
-      - ApiKeyAuth: []
+      - JWT: []
       summary: Post cart
       tags:
       - Cart
@@ -184,8 +184,25 @@ paths:
               $ref: '#/definitions/model.CartAPI'
             type: array
       security:
-      - ApiKeyAuth: []
+      - JWT: []
       summary: Delete cart
+      tags:
+      - Cart
+  /cart/check-out:
+    post:
+      consumes:
+      - application/json
+      description: Checkout product in cart
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Cart'
+            type: array
+      security:
+      - JWT: []
+      summary: Post checkout cart
       tags:
       - Cart
   /login:
@@ -247,7 +264,7 @@ paths:
               $ref: '#/definitions/model.Product'
             type: array
       security:
-      - ApiKeyAuth: []
+      - JWT: []
       summary: Get all product
       tags:
       - Product
@@ -274,6 +291,8 @@ paths:
       tags:
       - Auth
 securityDefinitions:
-  BasicAuth:
-    type: basic
+  JWT:  
+    type: apiKey  
+    in: header  
+    name: authorization 
 swagger: "2.0"

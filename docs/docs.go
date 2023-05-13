@@ -122,6 +122,34 @@ const docTemplate = `{
                 }
             }
         },
+        "/cart/check-out": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Checkout product in cart",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Post checkout cart",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Cart"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/cart/{id}": {
             "delete": {
                 "security": [
