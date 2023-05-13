@@ -1,5 +1,30 @@
 basePath: /api
 definitions:
+  auth.Payload:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  model.Costumer:
+    properties:
+      created_at:
+        format: date-time
+        type: string
+      email:
+        type: string
+      id:
+        format: uuid
+        type: string
+      name:
+        type: string
+      updated_at:
+        format: date-time
+        type: string
+    type: object
   model.Product:
     properties:
       created_at:
@@ -41,11 +66,33 @@ info:
   title: Synapsis Test
   version: "1.0"
 paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login new costumer
+      parameters:
+      - description: Payload Login
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/auth.Payload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Costumer'
+      summary: Login new costumer
+      tags:
+      - Auth
   /product:
     get:
       consumes:
       - application/json
-      description: Mendapatkan semua list produk
+      description: Get all list produk
       parameters:
       - description: Page number start from zero
         in: query
@@ -79,12 +126,34 @@ paths:
             type: array
       security:
       - JWT: []
-      summary: Get All product
+      summary: Get all product
       tags:
       - Product
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register new costumer
+      parameters:
+      - description: Payload Register
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/auth.Payload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Costumer'
+      summary: Register new costumer
+      tags:
+      - Auth
 securityDefinitions:
   JWT:  
     type: apiKey  
     in: header  
-    name: authorization  
+    name: authorization
 swagger: "2.0"

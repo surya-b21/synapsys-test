@@ -19,6 +19,7 @@ func Handle(app *fiber.App) {
 	})
 
 	app.Post("/api/login", authController.Login)
+	app.Post("/api/register", authController.Register)
 	auth := middleware.New(middleware.DefaultConfig)
 
 	api := app.Group("/api", auth, middleware.ClaimJWT)

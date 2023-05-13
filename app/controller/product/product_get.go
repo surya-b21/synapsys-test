@@ -8,8 +8,8 @@ import (
 )
 
 // GetProduct godoc
-// @Summary      Get All product
-// @Description  Mendapatkan semua list produk
+// @Summary      Get all product
+// @Description  Get all list produk
 // @Tags         Product
 // @Accept       application/json
 // @Produce		 application/json

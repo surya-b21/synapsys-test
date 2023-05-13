@@ -10,9 +10,17 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// Login function
+// Login godoc
+// @Summary      Login new costumer
+// @Description  Login new costumer
+// @Tags         Auth
+// @Accept       application/json
+// @Produce		 application/json
+// @Param        data   body  auth.Payload  true  "Payload Login"
+// @Success      200  {object}  model.Costumer
+// @Router       /login [post]
 func Login(c *fiber.Ctx) error {
-	var payload LoginPayload
+	var payload Payload
 	if err := c.BodyParser(&payload); err != nil {
 		return c.Status(400).JSON(fiber.Map{
 			"status":  400,
@@ -20,12 +28,14 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	// hashPassword, err := bcrypt.GenerateFromPassword([]byte(payload.Password), bcrypt.DefaultCost)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
 	db := service.DB
+
+	if validEmail := validEmailAddress(payload.Email); !validEmail {
+		return c.Status(400).JSON(fiber.Map{
+			"status":  400,
+			"message": "invalid email",
+		})
+	}
 
 	costumer := model.Costumer{}
 	if rows := db.First(&costumer, "email = ?", payload.Email).RowsAffected; rows < 1 {
@@ -60,8 +70,9 @@ func Login(c *fiber.Ctx) error {
 	})
 }
 
-// LoginPayload struct
-type LoginPayload struct {
+// Payload struct
+type Payload struct {
+	Name     string `json:"name,omitempty"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
