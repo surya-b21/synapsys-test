@@ -28,3 +28,6 @@ You can follow this command to run app
 
 ## ACCESS SWAGGER
 After turn on docker container you can follow access [localhost:8080](http://localhost:8080/) to access swagger
+
+## ERD
+ERD can access from this link [ERD](https://drive.google.com/file/d/174VrrESsC7HNNHmvg_hS8AasY_bsmQ6P/view?usp=share_link)
