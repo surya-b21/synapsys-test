@@ -4,7 +4,7 @@ FROM golang:1.20.4-alpine AS builder
 RUN apk add upx
 
 #install goupx
-RUN go get github.com/pwaller/goupx
+RUN go install github.com/pwaller/goupx@latest
 
 WORKDIR /app
 COPY . .
@@ -14,14 +14,14 @@ COPY go.sum ./
 RUN go mod download
 
 #build app
-RUN CGO_ENABLED=0 GOOS=linux go build -a -tags netgo -ldflags '-s -w -extldflags "-static"' -o smartdio.run
+RUN CGO_ENABLED=0 GOOS=linux go build -a -tags netgo -ldflags '-s -w -extldflags "-static"' -o synapsis.run
 
-RUN goupx synapsys.run
+RUN goupx synapsis.run
 
 FROM alpine:latest
 
 RUN apk add ca-certificates
 
-COPY --from=builder /app/synapsys /server
+COPY --from=builder /app /server
 
 CMD ["/server"]
