@@ -9,6 +9,37 @@ definitions:
       password:
         type: string
     type: object
+  model.Cart:
+    properties:
+      costumer:
+        $ref: '#/definitions/model.Costumer'
+      costumer_id:
+        type: string
+      created_at:
+        format: date-time
+        type: string
+      id:
+        format: uuid
+        type: string
+      is_checkout:
+        type: boolean
+      product:
+        $ref: '#/definitions/model.Product'
+      product_id:
+        type: string
+      updated_at:
+        format: date-time
+        type: string
+    type: object
+  model.CartAPI:
+    properties:
+      costumer_id:
+        type: string
+      is_checkout:
+        type: boolean
+      product_id:
+        type: string
+    type: object
   model.Costumer:
     properties:
       created_at:
@@ -66,6 +97,74 @@ info:
   title: Synapsis Test
   version: "1.0"
 paths:
+  /cart:
+    get:
+      consumes:
+      - application/json
+      description: Get all product in cart
+      parameters:
+      - description: Page number start from zero
+        in: query
+        name: page
+        type: integer
+      - description: Size per page, default `0`
+        in: query
+        name: size
+        type: integer
+      - description: Sort by field, adding dash (`-`) at the beginning means descending
+          and vice versa
+        in: query
+        name: sort
+        type: string
+      - description: Select specific fields with comma separated
+        in: query
+        name: fields
+        type: string
+      - description: custom filters, see [more details](https://github.com/morkid/paginate#filter-format)
+        in: query
+        name: filters
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Cart'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get all cart
+      tags:
+      - Cart
+    post:
+      consumes:
+      - application/json
+      description: Add product to cart
+      parameters:
+      - description: Payload Cart
+        in: body
+        name: data
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.CartAPI'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.CartAPI'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Post cart
+      tags:
+      - Cart
   /login:
     post:
       consumes:
@@ -125,7 +224,7 @@ paths:
               $ref: '#/definitions/model.Product'
             type: array
       security:
-      - JWT: []
+      - ApiKeyAuth: []
       summary: Get all product
       tags:
       - Product
@@ -152,8 +251,6 @@ paths:
       tags:
       - Auth
 securityDefinitions:
-  JWT:  
-    type: apiKey  
-    in: header  
-    name: authorization
+  BasicAuth:
+    type: basic
 swagger: "2.0"

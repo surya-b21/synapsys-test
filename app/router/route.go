@@ -2,6 +2,7 @@ package router
 
 import (
 	authController "synapsis-test/app/controller/auth"
+	"synapsis-test/app/controller/cart"
 	"synapsis-test/app/controller/product"
 	"synapsis-test/app/middleware"
 
@@ -24,4 +25,7 @@ func Handle(app *fiber.App) {
 
 	api := app.Group("/api", auth, middleware.ClaimJWT)
 	api.Get("/product", product.GetProduct)
+
+	api.Get("/cart", cart.GetCart)
+	api.Post("/cart", cart.PostCart)
 }

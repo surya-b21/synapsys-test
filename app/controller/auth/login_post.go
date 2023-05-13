@@ -55,7 +55,7 @@ func Login(c *fiber.Ctx) error {
 	token, err := middleware.Encode(&jwt.MapClaims{
 		"email": payload.Email,
 		"id":    costumer.ID.String(),
-	}, 1000)
+	}, 36000)
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
